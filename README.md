@@ -4,15 +4,6 @@
 
 Crea el segundo contenedor
 
-editar
-
-```shell
-#EDITAR
-MATERIA='bda'
-INICIALES='mqr'
-BASE_IMAGE='ol-mqr:1.0'
-```
-
 ejecutar
 
 ```shellsession
