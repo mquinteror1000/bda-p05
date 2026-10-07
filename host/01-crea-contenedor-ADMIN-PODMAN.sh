@@ -4,11 +4,6 @@ MATERIA='bda'
 INICIALES='mqr'
 BASE_IMAGE='ol-mqr:1.0'
 
-## verificar que hay una subred para esa materia
-if [ "$MATERIA" != "bda" ] && [ "$MATERIA" != "bdd" ]; then
-  echo "Error: La materia '$MATERIA' no tiene una subred asignada."
-  exit 1
-fi
 
 NETWORK_NAME="${MATERIA}_network"
 
@@ -40,7 +35,7 @@ if podman container inspect "$CONTAINER_NAME" > /dev/null 2>&1; then
 fi
 
 
-## Crear el contenedor
+## Crear el segundo contenedor
 podman run -it \
     --userns=keep-id \
     -v "${UNAM_HOME}:/unam" \
@@ -49,6 +44,6 @@ podman run -it \
     --hostname "${HOSTNAME}" \
     --network "${NETWORK_NAME}" \
     --ip "${IP_DIR}" \
-    --expose 1521 \
+    -p 1523:1521 \
     --shm-size=4gb \
     "${BASE_IMAGE}" bash
