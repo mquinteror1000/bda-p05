@@ -1,10 +1,9 @@
 #!/bin/sh
-#EDITAR
-MATERIA="bda"
-INICIALES="mqr"
-ORACLE_VERSION="23ai"
-ORACLE_SID="free"
-UNAM_HOME="/unam"
+MATERIA='bda'
+INICIALES='mqr'
+ORACLE_VERSION='23ai'
+ORACLE_SID='free'
+UNAM_HOME='/unam'
 
 # Verificar que el script se esté ejecutando con privilegios de root
 if [ "$(id -u)" -ne 0 ]; then
@@ -34,12 +33,13 @@ else
 fi
 
 ## Crear variables de entorno
-ORACLE_BASE="/opt/oracle"
+ORACLE_BASE='/opt/oracle'
 ORACLE_HOME="${ORACLE_BASE}/product/${ORACLE_VERSION}/dbhomeFree"
 ORA_INVENTORY="${ORACLE_BASE}/oraInventory"
 
 cat > /etc/profile.d/99-custom-env.sh << EOF
 # Variables de entorno Oracle - generadas automáticamente
+export ORACLE_DOCKER_INSTALL=true
 export UNAM_HOME=${UNAM_HOME}
 export ORACLE_HOSTNAME=${HOSTNAME}
 export ORACLE_BASE=${ORACLE_BASE}
@@ -49,6 +49,7 @@ export ORACLE_SID=${ORACLE_SID}
 export NLS_LANG=American_America.AL32UTF8
 export PATH=\${ORACLE_HOME}/bin:\$PATH
 export LD_LIBRARY_PATH=\${ORACLE_HOME}/lib:\${LD_LIBRARY_PATH}
+alias sqlplus='rlwrap sqlplus'
 EOF
 
 echo "Contenido actual de /etc/profile.d/99-custom-env.sh"
