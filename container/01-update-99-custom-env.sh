@@ -48,7 +48,8 @@ export ORA_INVENTORY=${ORA_INVENTORY}
 export ORACLE_SID=${ORACLE_SID}
 export NLS_LANG=American_America.AL32UTF8
 export PATH=\${ORACLE_HOME}/bin:\$PATH
-export LD_LIBRARY_PATH=\${ORACLE_HOME}/lib:\${LD_LIBRARY_PATH}
+#export LD_LIBRARY_PATH=\${ORACLE_HOME}/lib:\${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${ORACLE_HOME}/lib:${LD_LIBRARY_PATH:-}
 alias sqlplus='rlwrap sqlplus'
 EOF
 
