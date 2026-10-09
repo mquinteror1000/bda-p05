@@ -1,8 +1,14 @@
 #!/bin/sh
+<<<<<<< HEAD
 #EDITAR
 MATERIA='bda'
 INICIALES='agn'
 BASE_IMAGE='ol-agn:1.0'
+=======
+MATERIA='bda'
+INICIALES='mqr'
+BASE_IMAGE='ol-mqr:1.0'
+>>>>>>> martin
 
 NETWORK_NAME="${MATERIA}_network"
 IP_DIR="172.22.0.12" # pra practica 5 es 12

@@ -1,0 +1,58 @@
+#!/bin/sh
+MATERIA='bda'
+INICIALES='mqr'
+ORACLE_VERSION='23ai'
+ORACLE_SID='free'
+UNAM_HOME='/unam'
+
+# Verificar que el script se esté ejecutando con privilegios de root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Alto. Este script debe ejecutarse con sudo o como root"
+    echo "Ejecutar así: sudo sh $0"
+    exit 1
+fi
+
+CONTAINER_NAME="c2-${MATERIA}-${INICIALES}"
+HOSTNAME="h2-${MATERIA}-${INICIALES}.fi.unam"
+
+## Verificar o cambiar permisos de /opt/oracle/oradata
+ORADATA_DIR="/opt/oracle/oradata"
+
+if [ -d "$ORADATA_DIR" ]; then
+    CURRENT_OWNER=$(stat -c '%U:%G' "$ORADATA_DIR")
+    if [ "$CURRENT_OWNER" != "oracle:oinstall" ]; then
+        echo "Cambiando dueño y grupo de $ORADATA_DIR a oracle:oinstall..."
+        chown -R oracle:oinstall "$ORADATA_DIR"
+        echo "Permisos actualizados."
+    else
+        echo "El directorio $ORADATA_DIR ya pertenece a oracle:oinstall. Continuando..."
+    fi
+else
+    echo "Error: El directorio $ORADATA_DIR no existe."
+    exit 1
+fi
+
+## Crear variables de entorno
+ORACLE_BASE='/opt/oracle'
+ORACLE_HOME="${ORACLE_BASE}/product/${ORACLE_VERSION}/dbhomeFree"
+ORA_INVENTORY="${ORACLE_BASE}/oraInventory"
+
+cat > /etc/profile.d/99-custom-env.sh << EOF
+# Variables de entorno Oracle - generadas automáticamente
+export ORACLE_DOCKER_INSTALL=true
+export UNAM_HOME=${UNAM_HOME}
+export ORACLE_HOSTNAME=${HOSTNAME}
+export ORACLE_BASE=${ORACLE_BASE}
+export ORACLE_HOME=${ORACLE_HOME}
+export ORA_INVENTORY=${ORA_INVENTORY}
+export ORACLE_SID=${ORACLE_SID}
+export NLS_LANG=American_America.AL32UTF8
+export PATH=\${ORACLE_HOME}/bin:\$PATH
+#export LD_LIBRARY_PATH=\${ORACLE_HOME}/lib:\${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${ORACLE_HOME}/lib:${LD_LIBRARY_PATH:-}
+alias sqlplus='rlwrap sqlplus'
+EOF
+
+echo "Contenido actual de /etc/profile.d/99-custom-env.sh"
+echo ""
+cat /etc/profile.d/99-custom-env.sh 
