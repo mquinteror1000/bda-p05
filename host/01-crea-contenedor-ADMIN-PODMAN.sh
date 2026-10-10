@@ -1,16 +1,4 @@
 #!/bin/sh
-<<<<<<< HEAD
-#EDITAR
-MATERIA='bda'
-INICIALES='agn'
-BASE_IMAGE='ol-agn:1.0'
-
-
-NETWORK_NAME="${MATERIA}_network"
-
-IP_DIR="172.22.0.12" # pra practica 5 es 12
-
-=======
 MATERIA='bda'
 INICIALES='mqr'
 BASE_IMAGE='ol-mqr:1.0'
@@ -18,7 +6,6 @@ BASE_IMAGE='ol-mqr:1.0'
 
 NETWORK_NAME="${MATERIA}_network"
 IP_DIR="172.22.0.12" # pra practica 5 es 12
->>>>>>> martin
 VOLUME_NAME="v2-${MATERIA}-oradata-${INICIALES}"
 
 # Verifica si el volumen existe antes de crearlo para no borrar datos
@@ -30,10 +17,6 @@ fi
 
 
 CONTAINER_NAME="c2-${MATERIA}-${INICIALES}"
-<<<<<<< HEAD
-
-=======
->>>>>>> martin
 HOSTNAME="h2-${MATERIA}-${INICIALES}.fi.unam"
 
 # Verificar UNAM_HOME
